@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>国风文人游历 · 苏轼与李清照</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ===== 顶部导航 ===== -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-seal">游</span>
+      <span class="brand-title">国风文人游历</span>
+    </div>
+    <nav class="nav">
+      <a href="#" class="nav-item active" data-view="home">首页</a>
+      <a href="#" class="nav-item" data-view="library">藏书阁</a>
+      <a href="#" class="nav-item" data-view="gallery">风物画集</a>
+      <a href="#" class="nav-item" data-view="draw">诗文抽签</a>
+      <a href="#" class="nav-item" data-view="scroll">游历长卷</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- ===== 首页 ===== -->
+    <section class="view view-home active" id="view-home">
+      <div class="home-layout">
+        <!-- 左侧：游历地图 -->
+        <div class="map-panel">
+          <div class="panel-title">
+            <h2>游历地图</h2>
+            <p>点击城中光点，探访文人足迹</p>
+          </div>
+          <div class="map" id="map">
+        <div class="map-bg"></div>
+        <div class="map-decor"></div>
+        <div class="map-paper-texture"></div>
+        <div class="map-edge-wash"></div>
+      </div>
+          <div class="map-legend">
+            <span class="legend-dot legend-locked"></span>未解锁
+            <span class="legend-dot legend-unlocked"></span>已解锁（墨绿）
+          </div>
+        </div>
+
+        <!-- 右侧：侧边栏 -->
+        <aside class="sidebar">
+          <!-- 藏书阁入口卡片 -->
+          <div class="side-card entry-card" id="entry-library">
+            <div class="card-stamp">藏</div>
+            <div class="card-body">
+              <h3>藏书阁</h3>
+              <p>查阅已收录的诗词与古迹</p>
+            </div>
+            <button class="card-btn">前往藏书阁</button>
+          </div>
+
+          <!-- 今日诗签卡片 -->
+          <div class="side-card verse-card">
+            <div class="card-stamp">签</div>
+            <div class="card-body">
+              <h3>今日诗签</h3>
+              <div class="verse-box" id="verse-box">
+                <p class="verse-text">且待抽取今日一签……</p>
+                <p class="verse-author"></p>
+              </div>
+            </div>
+            <button class="card-btn" id="btn-draw-verse">抽取诗文</button>
+          </div>
+
+          <!-- 风物画集卡片（答题解锁后开启） -->
+          <div class="side-card gallery-card locked" id="entry-gallery">
+            <div class="card-stamp">画</div>
+            <div class="card-body">
+              <h3>风物画集</h3>
+              <p id="gallery-card-tip">解锁古迹，收集古风插画</p>
+            </div>
+            <button class="card-btn" id="btn-entry-gallery">前往画集</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===== 藏书阁 ===== -->
+    <section class="view view-library" id="view-library">
+      <div class="panel-title">
+        <h2>藏书阁</h2>
+        <p>按城市分栏，收录已解锁古迹之诗词</p>
+      </div>
+      <div class="library-grid" id="library-grid">
+        <!-- 由 JS 动态生成 4 城分栏 -->
+      </div>
+    </section>
+
+    <!-- ===== 风物画集 ===== -->
+    <section class="view view-gallery" id="view-gallery">
+      <div class="panel-title">
+        <h2>风物画集</h2>
+        <p>每解锁一处古迹，同步解锁一幅水墨风物插画；集齐一城解锁全景大图</p>
+      </div>
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- 由 JS 动态生成 4 城分栏 -->
+      </div>
+    </section>
+
+    <!-- ===== 诗文抽签 ===== -->
+    <section class="view view-draw" id="view-draw">
+      <div class="panel-title">
+        <h2>诗文抽签</h2>
+        <p>于苏轼、李清照诗中随机得一签</p>
+      </div>
+      <div class="draw-stage">
+        <div class="draw-paper" id="draw-paper">
+          <p class="draw-text">轻点下方按钮，抽取一签</p>
+          <p class="draw-author"></p>
+        </div>
+        <button class="draw-btn" id="btn-draw-main">抽 取 诗 文</button>
+      </div>
+    </section>
+
+    <!-- ===== 游历长卷 ===== -->
+    <section class="view view-scroll" id="view-scroll">
+      <div class="panel-title">
+        <h2>游历长卷</h2>
+        <p>横向卷轴展示已解锁内容，可左右滑动查看，支持导出保存</p>
+      </div>
+
+      <div class="scroll-toolbar" id="scroll-toolbar">
+        <div class="tool-group">
+          <span class="tool-label">边框</span>
+          <div class="frame-picker" id="frame-picker">
+            <button class="frame-option active" data-frame="none">素底</button>
+          </div>
+        </div>
+        <div class="tool-group">
+          <span class="tool-label">印章</span>
+          <div class="seal-picker" id="seal-picker">
+            <span class="seal-locked-tip" id="seal-locked-tip">通关四城解锁篆刻印章</span>
+          </div>
+        </div>
+        <div class="tool-group">
+          <button class="scroll-download-btn" id="btn-scroll-download">下载长卷 PNG</button>
+        </div>
+      </div>
+
+      <div class="scroll-stage" id="scroll-stage">
+        <div class="scroll-stage-left-rod"></div>
+        <div class="scroll-stage-right-rod"></div>
+        <div class="scroll-stage-bottom-mountain"></div>
+        <div class="scroll-track" id="scroll-track">
+          <canvas id="scroll-canvas" width="2000" height="600"></canvas>
+          <div class="scroll-seals-layer" id="scroll-seals-layer"></div>
+        </div>
+        <div class="scroll-empty" id="scroll-empty" hidden>
+          <p>待君启程，解锁古迹后方可成卷</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== 弹窗：古迹列表 ===== -->
+  <div class="overlay" id="overlay-city" hidden>
+    <div class="popup popup-city">
+      <button class="popup-close" data-close>×</button>
+      <h3 class="popup-title" id="city-popup-title">古迹列表</h3>
+      <p class="popup-sub" id="city-popup-sub"></p>
+      <div class="site-list" id="site-list"></div>
+    </div>
+  </div>
+
+  <!-- ===== 弹窗：答题 ===== -->
+  <div class="overlay" id="overlay-quiz" hidden>
+    <div class="popup popup-quiz">
+      <button class="popup-close" data-close>×</button>
+      <div class="quiz-head">
+        <span class="quiz-badge" id="quiz-badge">古迹</span>
+        <h3 class="popup-title" id="quiz-title">古迹答题</h3>
+      </div>
+      <p class="quiz-author" id="quiz-author"></p>
+
+      <!-- 文人小故事 -->
+      <div class="quiz-section">
+        <h4 class="quiz-section-title">文人小故事</h4>
+        <p class="quiz-story" id="quiz-story"></p>
+      </div>
+
+      <!-- 诗词填空 -->
+      <div class="quiz-section">
+        <h4 class="quiz-section-title">诗词填空</h4>
+        <p class="quiz-prompt" id="quiz-prompt"></p>
+        <div class="quiz-input-row">
+          <input type="text" id="quiz-input" class="quiz-input" placeholder="请填入所缺诗句" autocomplete="off" />
+          <button class="quiz-submit" id="quiz-submit">提交</button>
+        </div>
+        <div class="quiz-feedback" id="quiz-feedback" hidden>
+          <!-- 反馈内容（答对/答错+正确答案）由 JS 注入 -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 弹窗：城市达成祝贺 ===== -->
+  <div class="overlay" id="overlay-city-complete" hidden>
+    <div class="popup popup-achieve">
+      <button class="popup-close" data-close>×</button>
+      <div class="achieve-scroll-top"></div>
+      <div class="achieve-body">
+        <div class="achieve-badge">✦ 城市达成 ✦</div>
+        <h3 class="popup-title" id="achieve-city-title">黄州</h3>
+        <p class="achieve-sub" id="achieve-city-sub">已集齐全部古迹，解锁专属古风边框与城市全景插画</p>
+        <div class="achieve-rewards">
+          <div class="reward-item">
+            <div class="reward-icon">框</div>
+            <div class="reward-text">专属古风边框</div>
+          </div>
+          <div class="reward-item">
+            <div class="reward-icon">画</div>
+            <div class="reward-text">城市全景插画</div>
+          </div>
+        </div>
+        <button class="achieve-btn" data-close>收下奖励</button>
+      </div>
+      <div class="achieve-scroll-bottom"></div>
+    </div>
+  </div>
+
+  <!-- ===== 弹窗：全局通关祝贺 ===== -->
+  <div class="overlay" id="overlay-global-complete" hidden>
+    <div class="popup popup-achieve popup-global">
+      <button class="popup-close" data-close>×</button>
+      <div class="achieve-scroll-top"></div>
+      <div class="achieve-body">
+        <div class="achieve-badge achieve-badge-gold">★ 四城达成 · 千古风流 ★</div>
+        <h3 class="popup-title">恭喜完整游历</h3>
+        <p class="achieve-sub">已集齐四城全部古迹，解锁全套篆刻印章水印</p>
+        <div class="seals-preview" id="seals-preview">
+          <!-- 印章预览由 JS 生成 -->
+        </div>
+        <p class="achieve-sub">印章可用于游历长卷装饰</p>
+        <button class="achieve-btn" data-close>欣然收下</button>
+      </div>
+      <div class="achieve-scroll-bottom"></div>
+    </div>
+  </div>
+
+  <!-- ===== 弹窗：插画大图预览 ===== -->
+  <div class="overlay" id="overlay-gallery-preview" hidden>
+    <div class="popup popup-gallery-preview">
+      <button class="popup-close" data-close>×</button>
+      <div class="gallery-preview-header">
+        <h3 class="popup-title" id="gallery-preview-title">插画标题</h3>
+        <p class="popup-sub" id="gallery-preview-sub">诗句</p>
+      </div>
+      <div class="gallery-preview-image" id="gallery-preview-image">
+        <!-- Canvas 或 img 展示大图 -->
+      </div>
+      <button class="card-btn card-btn-ghost" id="btn-download-gallery">保存图片</button>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <span>水墨国风 · 文人游历 · 数据保存在本地浏览器</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
